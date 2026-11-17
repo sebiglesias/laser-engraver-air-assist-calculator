@@ -1,0 +1,15 @@
+{
+  "name": "Laser Engraver Air Assist CFM & Pressure Calculator",
+  "short_name": "Air Assist Calc",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#04151a",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

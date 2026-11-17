@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laser Engraver Air Assist CFM & Pressure Calculator — Accurate Material Estimator</title>
+  <meta name="description" content="Calculate required air assist CFM flow rates, compressor PSI, and nozzle diameter sizing to eliminate charring and smoke staining in laser cutting.">
+  <link rel="canonical" href="https://sebiglesias.com.ar/laser-engraver-air-assist-calculator/">
+  <meta name="theme-color" content="#06b6d4">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Laser Engraver Air Assist CFM & Pressure Calculator">
+  <meta property="og:description" content="Calculate required air assist CFM flow rates, compressor PSI, and nozzle diameter sizing to eliminate charring and smoke staining in laser cutting.">
+  <meta property="og:url" content="https://sebiglesias.com.ar/laser-engraver-air-assist-calculator/">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BNDBQP0W7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2BNDBQP0W7');
+  </script>
+
+  <!-- Google AdSense -->
+  <meta name="google-adsense-account" content="ca-pub-3381238987477190">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3381238987477190" crossorigin="anonymous"></script>
+
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Laser Engraver Air Assist CFM & Pressure Calculator",
+    "url": "https://sebiglesias.com.ar/laser-engraver-air-assist-calculator/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "description": "Calculate required air assist CFM flow rates, compressor PSI, and nozzle diameter sizing to eliminate charring and smoke staining in laser cutting.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why is air assist crucial for laser cutting?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Air assist blows a continuous concentrated jet of air through the focal cone directly into the laser kerf. This immediately suppresses combustive flaming, blows away combusted vaporized carbon (eliminating charred edges), and protects the expensive optical focus lens from smoke soot deposits."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use too much air during raster engraving?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. High air velocity during raster engraving blows hot vaporized ash across the cold wood surface, creating dirty smudges. Engraving requires very low airflow (10\u201315 L/min) simply to protect the lens."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I cut PVC or vinyl with a laser?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "NEVER cut PVC or polyvinyl chloride vinyl on any laser cutter. The thermal decomposition releases pure chlorine gas, which reacts with humidity to form hydrochloric acid\u2014instantly corroding laser rails and causing lethal pulmonary lung damage."
+        }
+      }
+    ]
+  }
+]
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">⚡ CNC Laser Optics & Air Fluid Dynamics Standards</div>
+      <h1>Laser Engraver Air Assist CFM Calculator</h1>
+      <p class="subtitle">Calculate required air assist CFM, nozzle pressure (PSI), and pump wattage for char-free, razor-sharp wood and acrylic cuts.</p>
+    </header>
+
+    <!-- AdSense Top Banner -->
+    <div style="text-align:center; margin: 16px 0;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3381238987477190"
+           data-ad-slot="auto"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <main class="calc-grid">
+      <!-- Inputs Card -->
+      <form class="card" id="laser-engraver-air-assist-calculator-form" onsubmit="event.preventDefault();">
+        <h2>📐 Laser Optics & Material Specs</h2>
+        
+        <div class="input-row">
+          <div class="form-group">
+            <label for="laserType">Laser Machine Type & Optical Power</label>
+            <select id="laserType">
+              <option value="diode10">Diode Laser (10W - 20W Optical Power)</option>
+              <option value="diode40" selected>High-Power Diode Laser (30W - 48W Optical Power)</option>
+              <option value="co2_50">CO2 Laser (50W - 80W Tube)</option>
+              <option value="co2_100">CO2 / Fiber Laser (100W - 150W Tube)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="processMode">Fabrication Operation</label>
+            <select id="processMode">
+              <option value="cut_thick" selected>Vector Cutting Thick Plywood / Hardwood (1/4" - 1/2")</option>
+              <option value="cut_thin">Vector Cutting Thin Material / Acrylic (1/8" / 3mm)</option>
+              <option value="engrave">Fine Raster Engraving (Minimal Air Needed)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="form-group">
+            <label for="nozzleSize">Air Assist Nozzle Orifice</label>
+            <select id="nozzleSize">
+              <option value="1.5">1.5 mm Cone Nozzle (High Velocity Jet)</option>
+              <option value="2.0" selected>2.0 mm Standard Air Cone</option>
+              <option value="2.5">2.5 mm Wide Flow Cone</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="airlineLength">Air Hose Tubing Run</label>
+            <div class="input-wrap">
+              <input type="number" id="airlineLength" step="2" min="3" max="50" value="10" required>
+              <span class="input-suffix">feet</span>
+            </div>
+          </div>
+        </div>
+        
+      </form>
+
+      <!-- Results Card -->
+      <div class="card">
+        <h2>📊 Recommended Air Pump & CFM Pressure</h2>
+        
+        <div class="result-hero">
+          <div class="result-hero-val" id="resPumpLpm">65 L/min (2.3 CFM)</div>
+          <div class="result-hero-label">Recommended Pump Airflow Capacity</div>
+        </div>
+
+        <div class="specs-grid">
+          <div class="spec-item">
+            <div class="spec-desc">Target Working Nozzle Pressure</div>
+            <div class="spec-val" id="resNozzlePsi">18 – 22 PSI</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-desc">Recommended Pump Type</div>
+            <div class="spec-val" id="resPumpType">Electromagnetic Diaphragm (60W-75W)</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-desc">Expected Cut Quality</div>
+            <div class="spec-val" id="resCharRating">Zero Char / Clean Golden Edge</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-desc">Exhaust Fume Risk Alert</div>
+            <div class="spec-val">Active Ventilation Required</div>
+          </div>
+        </div>
+        
+      </div>
+    </main>
+
+    
+
+    <!-- Amazon Supplies Box -->
+    <section class="supplies-card">
+      <h3>🛠️ Recommended Laser Air Pumps, Nozzles & Enclosure Exhaust</h3>
+      <div class="supplies-grid">
+        <div class="supply-item">
+          <div>
+            <div class="supply-title">Ultra-Quiet 68W 80L/min Electromagnetic Air Assist Pump</div>
+            <div class="supply-desc">Commercial continuous-duty air pump engineered for clean laser cutting with dual noise dampers.</div>
+          </div>
+          <a href="https://www.amazon.com/s?k=laser+air+assist+pump+80l+min&tag=sebiglesias-20" target="_blank" rel="nofollow noopener" class="btn-amazon">Check on Amazon →</a>
+        </div>
+        <div class="supply-item">
+          <div>
+            <div class="supply-title">Universal Aluminum Honeycomb Working Bed with Steel Plate (400x400mm)</div>
+            <div class="supply-desc">Fast-dissipating honeycomb grid protecting your workbench from laser reflections and flashback burns.</div>
+          </div>
+          <a href="https://www.amazon.com/s?k=laser+honeycomb+working+bed+400x400&tag=sebiglesias-20" target="_blank" rel="nofollow noopener" class="btn-amazon">Check on Amazon →</a>
+        </div>
+        <div class="supply-item">
+          <div>
+            <div class="supply-title">Quiet Inline 4-Inch Duct Fan with Speed Controller (205 CFM)</div>
+            <div class="supply-desc">High-efficiency exhaust ventilation blower to evacuate harmful acrylic smoke and wood particulate.</div>
+          </div>
+          <a href="https://www.amazon.com/s?k=inline+duct+fan+4+inch+speed+controller&tag=sebiglesias-20" target="_blank" rel="nofollow noopener" class="btn-amazon">Check on Amazon →</a>
+        </div>
+        <div class="supply-item">
+          <div>
+            <div class="supply-title">High-Pressure Polyurethane Flexible Air Hose Kit with Quick Connects</div>
+            <div class="supply-desc">Lightweight 6mm/8mm drag-chain rated flexible air tubing that won't kink inside laser gantry tracks.</div>
+          </div>
+          <a href="https://www.amazon.com/s?k=polyurethane+air+tubing+quick+connect+laser&tag=sebiglesias-20" target="_blank" rel="nofollow noopener" class="btn-amazon">Check on Amazon →</a>
+        </div>
+      </div>
+      <p style="font-size:0.75rem; color:#94a3b8; margin-top:14px; margin-bottom:0; text-align:center;">
+        ⚖️ <em>Affiliate Notice: As an Amazon Associate, this site earns from qualifying purchases at no additional cost to you. We strictly link to laser air assist pumps, honeycomb beds, and fume exhaust systems.</em>
+      </p>
+    </section>
+
+    <!-- FAQ Section for SEO -->
+    <section class="faq-section">
+      <h2 style="font-size:1.35rem; color:#ffffff; margin-bottom:16px;">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="faq-q">Why is air assist crucial for laser cutting?</div>
+        <div class="faq-a">Air assist blows a continuous concentrated jet of air through the focal cone directly into the laser kerf. This immediately suppresses combustive flaming, blows away combusted vaporized carbon (eliminating charred edges), and protects the expensive optical focus lens from smoke soot deposits.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I use too much air during raster engraving?</div>
+        <div class="faq-a">Yes. High air velocity during raster engraving blows hot vaporized ash across the cold wood surface, creating dirty smudges. Engraving requires very low airflow (10–15 L/min) simply to protect the lens.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I cut PVC or vinyl with a laser?</div>
+        <div class="faq-a">NEVER cut PVC or polyvinyl chloride vinyl on any laser cutter. The thermal decomposition releases pure chlorine gas, which reacts with humidity to form hydrochloric acid—instantly corroding laser rails and causing lethal pulmonary lung damage.</div>
+      </div>
+    </section>
+
+    <!-- Bottom AdSense Banner -->
+    <div style="text-align:center; margin: 32px 0;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3381238987477190"
+           data-ad-slot="auto"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <footer>
+      <p>© 2026 <a href='https://sebiglesias.com.ar/'>sebiglesias.com.ar</a> · Laser Air Assist Calculator. Trade and digital fabrication reference tool.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
